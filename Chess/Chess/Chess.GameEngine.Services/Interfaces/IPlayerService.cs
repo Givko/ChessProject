@@ -4,7 +4,7 @@ using Chess.GameEngine.Models;
 
 namespace Chess.GameEngine.Services.Interfaces
 {
-    public interface IPlayerService : IBaseEntityService<Player, PlayerModel>
+    public interface IPlayerService : IBaseCrudService<Player, PlayerModel>
     {
     }
 }

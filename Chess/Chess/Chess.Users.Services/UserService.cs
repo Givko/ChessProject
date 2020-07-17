@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Chess.Users.Services
 {
-    public class UserService : BaseEntityService<User, UserModel>, IUserService
+    public class UserService : BaseCrudService<User, UserModel>, IUserService
     {
         public UserService(IUnitOfWork unitOfWork,
             IDateTimeProvider dateTimeProvider,

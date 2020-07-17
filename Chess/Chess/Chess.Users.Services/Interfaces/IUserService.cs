@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chess.Users.Services.Interfaces
 {
-    public interface IUserService : IBaseEntityService<User, UserModel>
+    public interface IUserService : IBaseCrudService<User, UserModel>
     {
         /// <summary>
         /// Gets a user model by a given email.

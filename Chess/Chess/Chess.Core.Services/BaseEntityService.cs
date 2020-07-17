@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Chess.Core.Services
 {
-    public abstract class BaseEntityService<TEntity, TModel> : IBaseEntityService<TEntity, TModel>
+    public abstract class BaseCrudService<TEntity, TModel> : IBaseCrudService<TEntity, TModel>
         where TEntity : class, IBaseEntity
         where TModel : class, IBaseModel
     {
@@ -18,7 +18,7 @@ namespace Chess.Core.Services
         protected readonly IMapper _mapper;
         protected readonly IRepository<TEntity> _repository;
 
-        protected BaseEntityService(IUnitOfWork unitOfWork,
+        protected BaseCrudService(IUnitOfWork unitOfWork,
             IDateTimeProvider dateTimeProvider,
             IMapper mapper)
         {

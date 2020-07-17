@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Chess.Core.Services.Interfaces
 {
-    public interface IBaseEntityService<TEntity, TModel> : IDisposable
+    public interface IBaseCrudService<TEntity, TModel> : IDisposable
         where TEntity : class, IBaseEntity
         where TModel : IBaseModel
     {

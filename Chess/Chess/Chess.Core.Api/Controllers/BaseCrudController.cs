@@ -12,7 +12,7 @@ namespace Chess.Core.Api.Controllers
     public abstract class BaseCrudController<TService, TModel, TEntity> : Controller
         where TEntity : class, IBaseEntity
         where TModel : IBaseModel
-        where TService : IBaseEntityService<TEntity, TModel>
+        where TService : IBaseCrudService<TEntity, TModel>
     {
         protected readonly TService _service;
         protected readonly ILogger _logger;
