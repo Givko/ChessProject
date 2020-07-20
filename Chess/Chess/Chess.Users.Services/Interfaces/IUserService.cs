@@ -1,5 +1,4 @@
-﻿using Chess.Core.Domain.Interfaces;
-using Chess.Core.Services.Interfaces;
+﻿using Chess.Core.Services.Interfaces;
 using Chess.Users.DataAccess.Entities;
 using Chess.Users.Models.UserModels;
 using System;
@@ -8,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Chess.Users.Services.Interfaces
 {
-    public interface IUserService : IBaseEntityService<User, UserModel>
+    public interface IUserService : IBaseCrudService<User, UserModel>
     {
         /// <summary>
         /// Gets a user model by a given email.
         /// </summary>
         /// <param name="email">An email of an exsiting user</param>
         /// <returns>Returns the user with the given email.</returns>
-        Task<IResponse> Login(UserLoginModel loginModel);
+        Task<UserModel> GetByEmailAsync(string email);
 
         /// <summary>
         /// Checks if a user if this email already exists.
@@ -27,26 +26,26 @@ namespace Chess.Users.Services.Interfaces
         /// <summary>
         /// Changes the current password of a user with a new one
         /// </summary>
-        Task<IResponse> ChangePasswordAsync(Guid userId, ChangePasswordModel model);
+        Task ChangePasswordAsync(Guid userId, ChangePasswordModel model);
 
         /// <summary>
         /// Return the user details for a certain user
         /// </summary>
-        Task<IResponse> GetUserDetailsAsync(Guid userId);
+        Task<UserDetailsModel> GetUserDetailsAsync(Guid userId);
 
         /// <summary>
         /// Updates user details
         /// </summary>
-        Task<IResponse> UpdateDetailsAsync(Guid userId, UserDetailsModel model);
+        Task<UserDetailsModel> UpdateDetailsAsync(Guid userId, UserDetailsModel model);
 
         /// <summary>
         /// Update the points of a user
         /// </summary>
-        Task<IResponse> UpdatePointsAsync(Guid userId, PointsUpdateModel model);
+        Task UpdatePointsAsync(Guid userId, PointsUpdateModel model);
 
         /// <summary>
         /// Returns the user details for all non deleted users
         /// </summary>
-        Task<IResponse> GetAllUserDetailsAsync();
+        Task<IEnumerable<UserDetailsModel>> GetAllUserDetailsAsync();
     }
 }

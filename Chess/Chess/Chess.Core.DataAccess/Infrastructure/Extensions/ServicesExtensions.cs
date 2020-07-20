@@ -6,17 +6,19 @@ namespace Chess.Core.DataAccess.Infrastructure.Extensions
 {
     public static class ServicesExtensions
     {
-        public static void AddActivatorWrapper(this IServiceCollection services)
-        {
-            #region Scoped registrations
-            services.AddScoped<IActivatorWrapper, ActivatorWrapper>();
-            #endregion
-        }
-
-        public static void AddUnitOfWork<TDbContext>(this IServiceCollection services)
+        public static IServiceCollection AddDataAccessDependencies<TDbContext>(this IServiceCollection services, string connectionString)
             where TDbContext : DbContext
         {
-            services.AddScoped<IUnitOfWork, UnitOfWork<TDbContext>>();
+            #region Scoped registrations
+            services
+                .AddScoped<IActivatorWrapper, ActivatorWrapper>()
+                .AddScoped<IUnitOfWork, UnitOfWork<TDbContext>>();
+            #endregion
+
+            services.AddDbContext<TDbContext>(options
+                => options.UseSqlServer(connectionString));
+
+            return services;
         }
     }
 }

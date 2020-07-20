@@ -1,61 +1,35 @@
 ﻿using AutoMapper;
 using Chess.Core.DataAccess;
-using Chess.Core.Domain;
 using Chess.Core.Domain.Interfaces;
 using Chess.Core.Services;
 using Chess.Users.DataAccess.Entities;
 using Chess.Users.Models.UserModels;
 using Chess.Users.Services.Exceptions;
 using Chess.Users.Services.Interfaces;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.AspNetCore.WebUtilities;
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Chess.Users.Services
 {
-    public class UserService : BaseEntityService<User, UserModel>, IUserService
+    public class UserService : BaseCrudService<User, UserModel>, IUserService
     {
-        private readonly ITokenService _tokenService;
         public UserService(IUnitOfWork unitOfWork,
             IDateTimeProvider dateTimeProvider,
-            IMapper mapper,
-            ITokenService tokenService)
-            : base(unitOfWork, dateTimeProvider, mapper)
+            IMapper mapper)
+            : base(unitOfWork, dateTimeProvider, mapper) { }
+
+        public async Task<UserModel> GetByEmailAsync(string email)
         {
-            _tokenService = tokenService;
-        }
+            if (string.IsNullOrEmpty(email))
+                throw new ArgumentNullException("email");
 
-        public override async Task<IResponse> InsertAsync(UserModel model)
-        {
-            if (model == null)
-                return new Response(HttpStatusCode.BadRequest, false);
-
-            if (await DoesUserExistAsync(model.Email))
-                return new Response(HttpStatusCode.BadRequest, false, $"Email already exists.");
-
-            return await base.InsertAsync(model);
-        }
-
-        public async Task<IResponse> Login(UserLoginModel loginModel)
-        {
-            if (string.IsNullOrEmpty(loginModel.Email))
-                return new Response(HttpStatusCode.BadRequest, false, $"Invalid email");
-
-            var user = await _repository.Get(u => u.Email == loginModel.Email);
+            var user = await _repository.Get(u => u.Email == email);
 
             if (user == default)
-                return new Response(HttpStatusCode.NotFound, false, $"User not found.");
+                return default;
 
-            var model = _mapper.Map<UserModel>(user);
-            if (!PasswordHasher.VerifyPassword(loginModel.Password, model.Password))
-                return new Response(HttpStatusCode.Unauthorized, false, $"Password incorrect");
-
-            var token = await _tokenService.GenerateJwtAsync(model);
-
-            return new Response(HttpStatusCode.OK, true, new { Token = token });
+            return _mapper.Map<UserModel>(user);
         }
 
         public async Task<bool> DoesUserExistAsync(string email)
@@ -68,25 +42,23 @@ namespace Chess.Users.Services
             entity.Password = PasswordHasher.HashPassword(entity.Password);
         }
 
-        public async Task<IResponse> ChangePasswordAsync(Guid userId, ChangePasswordModel model)
+        public async Task ChangePasswordAsync(Guid userId, ChangePasswordModel model)
         {
             var user = await _repository.GetByIdAsync(userId);
 
             if (!PasswordHasher.VerifyPassword(model.OldPassword, user.Password))
-                return new Response(HttpStatusCode.BadRequest, false, "Old password is not correct.");
+                throw new ChangePasswordException("Old password is not correct.");
 
             user.Password = PasswordHasher.HashPassword(model.NewPassword);
 
             OnBeforeUpdate(user);
             await SaveEntityAsync(user);
-
-            return new Response(HttpStatusCode.OK, true);
         }
 
-        public async Task<IResponse> GetUserDetailsAsync(Guid userId)
+        public async Task<UserDetailsModel> GetUserDetailsAsync(Guid userId)
         {
             if (userId == default)
-                return new Response(HttpStatusCode.BadRequest, false, $"Invalid user.");
+                throw new ArgumentNullException(nameof(userId));
 
             var userDetailsDto = await _repository.GetDto(u => u.Id == userId, u => new UserDetailsModel
             {
@@ -97,10 +69,10 @@ namespace Chess.Users.Services
                 Username = u.Username
             });
 
-            return new Response(HttpStatusCode.OK, true, userDetailsDto);
+            return userDetailsDto;
         }
 
-        public async Task<IResponse> UpdateDetailsAsync(Guid userId, UserDetailsModel model)
+        public async Task<UserDetailsModel> UpdateDetailsAsync(Guid userId, UserDetailsModel model)
         {
             var user = await _repository.GetByIdAsync(userId);
 
@@ -108,33 +80,27 @@ namespace Chess.Users.Services
             user = await _repository.SaveAsync(user);
             _mapper.Map(user, model);
 
-            return new Response(HttpStatusCode.OK, true, model);
+            return model;
         }
 
-        public async Task<IResponse> UpdatePointsAsync(Guid userId, PointsUpdateModel model)
+        public async Task UpdatePointsAsync(Guid userId, PointsUpdateModel model)
         {
             if (userId == default)
-                return new Response(HttpStatusCode.BadRequest, false, $"Invalid user");
+                throw new ArgumentNullException(nameof(userId));
 
             var user = await _repository.GetByIdAsync(userId);
             user.Points = model.Points;
             await _repository.SaveAsync(user);
-
-            return new Response(HttpStatusCode.OK, true);
         }
 
-        public async Task<IResponse> GetAllUserDetailsAsync()
-        { 
-            var models = await _repository.GetAllDtos(u => new UserDetailsModel
-                {
-                    Email = u.Email,
-                    FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    Points = u.Points,
-                    Username = u.Username
-                });
-
-            return new Response(HttpStatusCode.OK, true, models);
-        } 
+        public async Task<IEnumerable<UserDetailsModel>> GetAllUserDetailsAsync()
+            => await _repository.GetAllDtos(u => new UserDetailsModel
+            {
+                Email = u.Email,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Points = u.Points,
+                Username = u.Username
+            });
     }
 }

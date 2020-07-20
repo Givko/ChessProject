@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="FluentValidation" Version="8.6.2" />
     <PackageReference Include="SecurityCodeScan.VS2017" Version="3.5.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -15,8 +14,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Chess.Core.DataAccess\Chess.Core.DataAccess.csproj" />
-    <ProjectReference Include="..\Chess.Core.Domain\Chess.Core.Domain.csproj" />
     <ProjectReference Include="..\Chess.Core.Models\Chess.Core.Models.csproj" />
+    <ProjectReference Include="..\Chess.Core.Services\Chess.Core.Services.csproj" />
+    <ProjectReference Include="..\Chess.GameEngine.DataAccess\Chess.GameEngine.DataAccess.csproj" />
+    <ProjectReference Include="..\Chess.GameEngine.Models\Chess.GameEngine.Models.csproj" />
   </ItemGroup>
 
 </Project>

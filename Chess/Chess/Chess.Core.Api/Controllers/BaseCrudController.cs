@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 namespace Chess.Core.Api.Controllers
 {
     [ApiController]
-    public abstract class BaseCrudController<TService, TModel, TEntity> : BaseController
+    public abstract class BaseCrudController<TService, TModel, TEntity> : Controller
         where TEntity : class, IBaseEntity
         where TModel : IBaseModel
-        where TService : IBaseEntityService<TEntity, TModel>
+        where TService : IBaseCrudService<TEntity, TModel>
     {
         protected readonly TService _service;
         protected readonly ILogger _logger;
@@ -30,19 +30,26 @@ namespace Chess.Core.Api.Controllers
             if (id == default)
                 return BadRequest();
 
-            var response = await _service.GetByIdAsync(id);
-            return ProcessResponse(response);
+            var model = await _service.GetByIdAsync(id);
+            if (model == null)
+                return NotFound();
+
+            return Ok(model);
         }
 
         [HttpPost]
         public virtual async Task<IActionResult> Post(TModel model)
         {
-            var response = await _service.InsertAsync(model);
-            if (!response.IsSuccessful)
-                return ProcessResponse(response);
+            if (model == null)
+                return BadRequest();
+
+            var savedModel = await _service.InsertAsync(model);
+            if (savedModel == null)
+                return BadRequest();
 
             await _service.SaveChangesAsync();
-            return ProcessResponse(response);
+
+            return Created(Request.Path.Value, savedModel);
         }
 
         [HttpPut("{id}")]
@@ -51,12 +58,13 @@ namespace Chess.Core.Api.Controllers
             if (model == null)
                 return BadRequest();
 
-            var response = await _service.UpdateAsync(model);
-            if (!response.IsSuccessful)
-                return ProcessResponse(response);
+            var updatedModel = await _service.UpdateAsync(model);
+            if (updatedModel == null)
+                return StatusCode(500, $"Update failed.");
 
             await _service.SaveChangesAsync();
-            return ProcessResponse(response);
+
+            return Ok(updatedModel);
         }
 
         [HttpDelete("{id}")]

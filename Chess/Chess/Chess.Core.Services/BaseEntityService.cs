@@ -1,17 +1,15 @@
 ﻿using AutoMapper;
 using Chess.Core.DataAccess;
 using Chess.Core.DataAccess.Entities;
-using Chess.Core.Domain;
 using Chess.Core.Domain.Interfaces;
 using Chess.Core.Models;
 using Chess.Core.Services.Interfaces;
 using System;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Chess.Core.Services
 {
-    public abstract class BaseEntityService<TEntity, TModel> : IBaseEntityService<TEntity, TModel>
+    public abstract class BaseCrudService<TEntity, TModel> : IBaseCrudService<TEntity, TModel>
         where TEntity : class, IBaseEntity
         where TModel : class, IBaseModel
     {
@@ -20,7 +18,7 @@ namespace Chess.Core.Services
         protected readonly IMapper _mapper;
         protected readonly IRepository<TEntity> _repository;
 
-        protected BaseEntityService(IUnitOfWork unitOfWork,
+        protected BaseCrudService(IUnitOfWork unitOfWork,
             IDateTimeProvider dateTimeProvider,
             IMapper mapper)
         {
@@ -30,30 +28,29 @@ namespace Chess.Core.Services
             _repository = _unitOfWork.GetRepository<TEntity>();
         }
 
-        public async Task<IResponse> GetByIdAsync(Guid id)
+        public async Task<TModel> GetByIdAsync(Guid id)
         {
             var entity = await _repository.GetByIdAsync(id);
-            var model = _mapper.Map<TModel>(entity);
-            
-            return new Response(HttpStatusCode.OK, true, model);
+
+            return _mapper.Map<TModel>(entity);
         }
 
-        public virtual async Task<IResponse> InsertAsync(TModel model)
+        public async Task<TModel> InsertAsync(TModel model)
         {
             var entity = _mapper.Map<TEntity>(model);
             OnBeforeInsert(entity);
             model = await SaveEntityAsync(entity);
 
-            return new Response(HttpStatusCode.OK, true, model);
+            return model;
         }
 
-        public async Task<IResponse> UpdateAsync(TModel model)
+        public async Task<TModel> UpdateAsync(TModel model)
         {
             var entity = _mapper.Map<TEntity>(model);
             OnBeforeUpdate(entity);
             model = await SaveEntityAsync(entity);
 
-            return new Response(HttpStatusCode.OK, true, model);
+            return model;
         }
 
         public async Task DeleteAsync(Guid id)

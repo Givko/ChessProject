@@ -1,18 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Repositories\**" />
-    <EmbeddedResource Remove="Repositories\**" />
-    <None Remove="Repositories\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Migrations\20200425202404_AddChangePassword.cs" />
-    <Compile Remove="Migrations\20200425202404_AddChangePassword.Designer.cs" />
+    <Compile Remove="Migrations\20200529120419_InitialMigration.cs" />
+    <Compile Remove="Migrations\20200529120419_InitialMigration.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,12 +21,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Chess.Core.DataAccess\Chess.Core.DataAccess.csproj" />
-    <ProjectReference Include="..\Chess.Users.Models\Chess.Users.Models.csproj" />
   </ItemGroup>
 
 </Project>

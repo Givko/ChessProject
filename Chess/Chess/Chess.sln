@@ -25,13 +25,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.Core.Middlewares", "C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.Users.Clients", "Chess.Users.Clients\Chess.Users.Clients.csproj", "{13A9A5B6-BC3C-45ED-87C5-F82D23090760}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Core.Api", "Chess.Core.Api\Chess.Core.Api.csproj", "{6AC91633-C453-4A4A-9333-C2A0752B4C0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.Core.Api", "Chess.Core.Api\Chess.Core.Api.csproj", "{6AC91633-C453-4A4A-9333-C2A0752B4C0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Core.Models", "Chess.Core.Models\Chess.Core.Models.csproj", "{CF5C1C4F-677C-4EF1-AFEC-5D2AD459D2C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.Core.Models", "Chess.Core.Models\Chess.Core.Models.csproj", "{CF5C1C4F-677C-4EF1-AFEC-5D2AD459D2C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Core.Services", "Chess.Core.Services\Chess.Core.Services.csproj", "{A3B20486-0351-4EE6-A466-827391E71EA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.Core.Services", "Chess.Core.Services\Chess.Core.Services.csproj", "{A3B20486-0351-4EE6-A466-827391E71EA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Core.Domain", "Chess.Core.Domain\Chess.Core.Domain.csproj", "{3E5BA511-FDB7-4290-B6AA-E48651DB3730}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.Core.Domain", "Chess.Core.Domain\Chess.Core.Domain.csproj", "{3E5BA511-FDB7-4290-B6AA-E48651DB3730}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Chess.GameEngine", "Chess.GameEngine", "{38C5FA77-9FF3-4EA6-AC5D-30A3F3BB9978}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.GameEngine.DataAccess", "Chess.GameEngine.DataAccess\Chess.GameEngine.DataAccess.csproj", "{D4785E7E-7A3F-4B8F-88CE-38321C2CEF18}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.GameEngine.Api", "Chess.GameEngine.Api\Chess.GameEngine.Api.csproj", "{881AD1C9-89FA-4549-ABE6-FAB6A4C72D07}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.GameEngine.Models", "Chess.GameEngine.Models\Chess.GameEngine.Models.csproj", "{79B56B3F-AAF9-404E-81FA-09CF72004019}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.GameEngine.Services", "Chess.GameEngine.Services\Chess.GameEngine.Services.csproj", "{A6759497-8F90-4631-8698-9AC2365C6364}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +97,22 @@ Global
 		{3E5BA511-FDB7-4290-B6AA-E48651DB3730}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E5BA511-FDB7-4290-B6AA-E48651DB3730}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E5BA511-FDB7-4290-B6AA-E48651DB3730}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4785E7E-7A3F-4B8F-88CE-38321C2CEF18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4785E7E-7A3F-4B8F-88CE-38321C2CEF18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4785E7E-7A3F-4B8F-88CE-38321C2CEF18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4785E7E-7A3F-4B8F-88CE-38321C2CEF18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{881AD1C9-89FA-4549-ABE6-FAB6A4C72D07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{881AD1C9-89FA-4549-ABE6-FAB6A4C72D07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{881AD1C9-89FA-4549-ABE6-FAB6A4C72D07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{881AD1C9-89FA-4549-ABE6-FAB6A4C72D07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79B56B3F-AAF9-404E-81FA-09CF72004019}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79B56B3F-AAF9-404E-81FA-09CF72004019}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79B56B3F-AAF9-404E-81FA-09CF72004019}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79B56B3F-AAF9-404E-81FA-09CF72004019}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6759497-8F90-4631-8698-9AC2365C6364}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6759497-8F90-4631-8698-9AC2365C6364}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6759497-8F90-4631-8698-9AC2365C6364}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6759497-8F90-4631-8698-9AC2365C6364}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,6 +130,10 @@ Global
 		{CF5C1C4F-677C-4EF1-AFEC-5D2AD459D2C8} = {AF3F2886-0AA8-4B7A-A1F9-1A8EE402F22F}
 		{A3B20486-0351-4EE6-A466-827391E71EA5} = {AF3F2886-0AA8-4B7A-A1F9-1A8EE402F22F}
 		{3E5BA511-FDB7-4290-B6AA-E48651DB3730} = {AF3F2886-0AA8-4B7A-A1F9-1A8EE402F22F}
+		{D4785E7E-7A3F-4B8F-88CE-38321C2CEF18} = {38C5FA77-9FF3-4EA6-AC5D-30A3F3BB9978}
+		{881AD1C9-89FA-4549-ABE6-FAB6A4C72D07} = {38C5FA77-9FF3-4EA6-AC5D-30A3F3BB9978}
+		{79B56B3F-AAF9-404E-81FA-09CF72004019} = {38C5FA77-9FF3-4EA6-AC5D-30A3F3BB9978}
+		{A6759497-8F90-4631-8698-9AC2365C6364} = {38C5FA77-9FF3-4EA6-AC5D-30A3F3BB9978}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EFB59D0B-4FB2-467F-8591-72A0E4D6F0EE}
